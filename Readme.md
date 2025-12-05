@@ -1,4 +1,4 @@
-# **📘 Monthly Price Forecasting – End-to-End ML Deployment Project**
+# **Monthly Price Forecasting – End-to-End ML Deployment Project**
 
 ## **📢 Introduction**
 
@@ -12,7 +12,11 @@ This case requires trainees to develop a model to forecast average monthly price
 Following standard model development procedures, the model should be trained on historical data and evaluated for predictive performance on future months. It is recommended to dedicate time to both fine-tuning the model and interpreting the results.
 
 ## **Data Dictionary & Source Acquisition**
-•	Data Dictionary: The data dictionary of the dataset can be found here
+•	Data Dictionary: 
+1. date – Represents the timestamp in ISO 8601 extended date format: YYYY-MM-DD.
+
+2. avg_monthly_price – Represents the average monthly price.
+
 
 •	Data Source: The dataset can be found here
 
