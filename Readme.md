@@ -18,7 +18,7 @@ Following standard model development procedures, the model should be trained on 
 2. avg_monthly_price – Represents the average monthly price.
 
 
-•	Data Source: The dataset can be found here
+•	Data Source: The dataset can be found [here](https://github.com/LibaMariyamK/End-to-End-Machine-Learning-Task/blob/main/price_data.csv)
 
 ## **Candidate Expectations**
 Your task is to execute the process for predicting monthly prices while answering the following questions:
