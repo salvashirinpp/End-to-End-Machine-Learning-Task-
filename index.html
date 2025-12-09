@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LSTM Price Forecast</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102,126,234,0.6);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.03);
+            opacity: 0.95;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            background: #f4f6ff;
+            color: #333;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>📈 Monthly Price Prediction Forecast</h1>
+        <p>Enter the last 4 monthly prices to predict next month</p>
+
+        <form id="predictionForm">
+            <input type="number" id="p1" placeholder="Month T-4 Price" step="0.01" required>
+            <input type="number" id="p2" placeholder="Month T-3 Price" step="0.01" required>
+            <input type="number" id="p3" placeholder="Month T-2 Price" step="0.01" required>
+            <input type="number" id="p4" placeholder="Month T-1 Price" step="0.01" required>
+
+            <button type="submit">🔮 Predict Price</button>
+        </form>
+
+        <div id="result">
+            Prediction will appear here...
+        </div>
+
+        <div class="footer">
+            Powered by Flask & LSTM
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("predictionForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            let prices = [
+                Number(document.getElementById("p1").value),
+                Number(document.getElementById("p2").value),
+                Number(document.getElementById("p3").value),
+                Number(document.getElementById("p4").value)
+            ];
+
+            let resultBox = document.getElementById("result");
+            resultBox.innerText = "⏳ Predicting...";
+
+            try {
+                let response = await fetch("/predict", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ recent_prices: prices })
+                });
+
+                let data = await response.json();
+
+                if (response.ok) {
+                    let forecast = data["next month price forecast USD"];
+                    resultBox.innerText = "✅ Predicted Price: $" + forecast.toFixed(2);
+                } else {
+                    resultBox.innerText = "❌ Error: " + data.detail;
+                }
+
+            } catch (err) {
+                resultBox.innerText = "🚫 Server not running. Start Flask: python app.py";
+            }
+        });
+    </script>
+
+</body>
+</html>
